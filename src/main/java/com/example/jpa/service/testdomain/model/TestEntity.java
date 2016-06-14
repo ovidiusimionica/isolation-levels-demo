@@ -1,4 +1,4 @@
-package com.example.jpa.service.model;
+package com.example.jpa.service.testdomain.model;
 
 import javax.persistence.*;
 

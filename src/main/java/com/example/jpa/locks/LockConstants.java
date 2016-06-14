@@ -1,4 +1,4 @@
-package com.example.jpa.service;
+package com.example.jpa.locks;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package com.example.jpa;
+package com.example.jpa.locks;
 
 /**
  * Same host system wide locking tool.
@@ -10,8 +10,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
+import java.util.logging.Logger;
 
 public class InterProcessTryLock {
+  private Logger log = Logger.getLogger(InterProcessTryLock.class.getName());
+
 
 
   private static final int MAX_ITERATIONS = 100;
@@ -28,7 +31,7 @@ public class InterProcessTryLock {
   }
 
   public void waitForTheOther() {
-    System.out.println("Waiting for the other process...");
+    log.info("Waiting for the other process...");
     FileLock fileLock;
     int iterations = 0;
     try {
@@ -36,7 +39,7 @@ public class InterProcessTryLock {
       synchronized (this) {
         fileLock = outputStream.getChannel().tryLock();
         if (fileLock == null) {
-          System.out.println("Detected the other process.");
+          log.info("Detected the other process.");
           return;
         }
         fileLock.release();
@@ -47,7 +50,7 @@ public class InterProcessTryLock {
       e.printStackTrace();
       throw new RuntimeException(e);
     } catch (OverlappingFileLockException e) {
-      System.out.println("Detected the other process.");
+      log.info("Detected the other process.");
     }
   }
 

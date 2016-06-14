@@ -1,4 +1,4 @@
-package com.example;
+package com.example.jpa.locks;
 
 /**
  * Same host system wide locking tool.
@@ -9,8 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileLock;
+import java.util.logging.Logger;
 
 public class InterProcessLock {
+
+  private Logger log = Logger.getLogger(InterProcessLock.class.getName());
 
   private final FileOutputStream outputStream;
   private FileLock fileLock;
@@ -37,7 +40,7 @@ public class InterProcessLock {
         // course. FileChannel.lock() acquires a lock on a file that prevents another process from getting a
         // lock on it. The method waits until a lock is released if the lock is held by a different process.
         fileLock = outputStream.getChannel().lock();
-        System.out.println("Got system wide lock ");
+        log.info("Got system wide lock ");
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -51,7 +54,7 @@ public class InterProcessLock {
       synchronized (this) {
         fileLock.release();
         fileLock = null;
-        System.out.println("Released system wide lock ");
+        log.info("Released system wide lock ");
       }
     } catch (IOException e) {
       e.printStackTrace();

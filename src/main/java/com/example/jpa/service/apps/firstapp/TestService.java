@@ -1,27 +1,29 @@
-package com.example.jpa.service;
+package com.example.jpa.service.apps.firstapp;
 
-import com.example.jpa.InterProcessTryLock;
+import com.example.jpa.service.apps.AppProfile;
+import com.example.jpa.service.apps.ITestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-
-import static com.example.jpa.service.LockConstants.LOCK_2;
+import java.util.logging.Logger;
 
 /**
  * A simple Service class
  */
 @Service
-@Profile("first")
-public class TestServiceProcess1 {
+@Profile(AppProfile.FIRST)
+public class TestService {
+  private Logger log = Logger.getLogger(TestService.class.getName());
+
 
   /** a dummy value for update and create operations */
   private static final String VALUE = "value1";
-  private TestController controller;
+  private ITestController controller;
 
   @Autowired
-  public TestServiceProcess1(TestController controller) {
+  public TestService(ITestController controller) {
     this.controller = controller;
   }
 
@@ -52,11 +54,11 @@ public class TestServiceProcess1 {
   }
 
   private void testSerializable() {
-    System.out.println("START of ISOLATION SERIALIZABLE test");
-    System.out.println(String.format("Before starting changes we have these records in DB: %s", controller.findAll()));
-    System.out.println("Step1: changing records ranging Values from-to  [10-15]");
-    controller.updateRecordsTransaction1(10, 15, VALUE);
-    System.out.println("END of ISOLATION SERIALIZABLE test");
+    log.info("START of ISOLATION SERIALIZABLE test");
+    log.info(String.format("Before starting changes we have these records in DB: %s", controller.findAll()));
+    log.info("Step1: changing records ranging Values from-to  [10-15]");
+    controller.updateRecords(10, 15, VALUE);
+    log.info("END of ISOLATION SERIALIZABLE test");
   }
 
 }

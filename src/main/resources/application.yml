@@ -7,15 +7,11 @@ spring:
     password: postgres
 
   jpa:
-#    database: POSTGRESQL
-#    database-platform: com.example.jpa.config.MyDialect
     show-sql: true
     properties:
       org:
         hibernate:
           flushMode: ALWAYS
-
-#        dialect: org.hibernate.dialect.PostgreSQL9Dialect
 
 # logging:
 #    level:
